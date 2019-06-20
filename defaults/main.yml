@@ -9,3 +9,6 @@ glusterfs_ppa_version: "3.13"
 # For Debian.
 glusterfs_gpg_key_version: "3.13"
 glusterfs_deb_version: "LATEST"
+
+# For RedHat
+glusterfs_redhat_release: "centos-release-gluster{{ glusterfs_default_release }}"

@@ -6,6 +6,11 @@
     - ansible_distribution == 'Ubuntu'
     - ansible_distribution_version == "14.04"
 
+- name: Override glusterfs_redhat_release for OracleLinux
+  set_fact:
+    glusterfs_redhat_release: "oracle-gluster-release-el{{ ansible_distribution_major_version }}"
+  when: ansible_distribution == "OracleLinux"
+
 # Setup/install tasks.
 - include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'

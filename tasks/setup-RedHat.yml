@@ -1,8 +1,12 @@
 ---
 - name: Ensure dependencies are installed.
   yum:
-    name: "centos-release-gluster{{ glusterfs_default_release }}"
+    name: "{{ glusterfs_redhat_release }}"
     state: present
+
+- name: Enable Gluster repository on OracleLinux
+  command: "yum-config-manager --enable ol{{ ansible_distribution_major_version }}_gluster5"
+  when: ansible_distribution == "OracleLinux"
 
 - name: Ensure Gluster packages are installed.
   yum:
