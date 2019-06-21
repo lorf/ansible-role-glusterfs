@@ -1,4 +1,6 @@
 ---
+glusterfs_client_only: false
+
 glusterfs_daemon: glusterd
 
 # For Ubuntu.

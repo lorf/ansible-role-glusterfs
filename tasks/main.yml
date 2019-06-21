@@ -9,7 +9,7 @@
 - name: Override glusterfs_redhat_release for OracleLinux
   set_fact:
     glusterfs_redhat_release: "oracle-gluster-release-el{{ ansible_distribution_major_version }}"
-  when: ansible_distribution == "OracleLinux"
+  when: ansible_distribution == 'OracleLinux'
 
 # Setup/install tasks.
 - include: setup-RedHat.yml
@@ -20,3 +20,4 @@
 
 - name: Ensure GlusterFS is started and enabled at boot.
   service: "name={{ glusterfs_daemon }} state=started enabled=yes"
+  when: glusterfs_client_only is not defined or not glusterfs_client_only|bool

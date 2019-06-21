@@ -27,19 +27,29 @@
     filename: gluster
   register: glusterfs_deb_source_added
 
-- name: Ensure GlusterFS will reinstall if the DEB source was just added.
+- name: Ensure GlusterFS client will reinstall if the DEB source was just added.
   apt:
-    name:
-      - glusterfs-server
-      - glusterfs-client
+    name: glusterfs-client
     state: absent
   when: glusterfs_deb_source_added.changed
   tags: ['skip_ansible_lint']
 
-- name: Ensure GlusterFS is installed.
+- name: Ensure GlusterFS server will reinstall if the DEB source was just added.
   apt:
-    name:
-      - glusterfs-server
-      - glusterfs-client
+    name: glusterfs-server
+    state: absent
+  when: glusterfs_deb_source_added.changed and glusterfs_client_only is not defined or not glusterfs_client_only|bool
+  tags: ['skip_ansible_lint']
+
+- name: Ensure GlusterFS client is installed.
+  apt:
+    name: glusterfs-client
     state: present
     default_release: "{{ glusterfs_default_release }}"
+
+- name: Ensure GlusterFS server is installed.
+  apt:
+    name: glusterfs-server
+    state: present
+    default_release: "{{ glusterfs_default_release }}"
+  when: glusterfs_client_only is not defined or not glusterfs_client_only|bool
